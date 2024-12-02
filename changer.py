@@ -120,7 +120,13 @@ def change_values(spacing,bar_spacing,border_width,bar_border_width,active_opaci
                 l[l.index(n)] = f"                \"<span color='{desaturated1}'>󰪤</span>\", // GPU 90" + "\n"
             elif n.find("// GPU Full") >= 0:
                 l[l.index(n)] = f"                \"<span color='{highlight_color}'>󰪥</span>\" // GPU Full" + "\n"
-        
+            elif n.find("// Wifi Empty") >= 0:
+                l[l.index(n)] = f"              \"<span color='{highlight_color}'>󰤯</span>\", // Wifi Empty" + "\n"
+            elif n.find("// Wifi Low") >= 0:
+                l[l.index(n)] = f"              \"<span color='{desaturated1}7'>󰤟</span>\", // Wifi Low" + "\n"
+            elif n.find("// Wifi Medium") >= 0:
+                l[l.index(n)] = f"              \"<span color='{desaturated2}'>󰤢</span>\", // Wifi Medium" + "\n"
+              
         f = open("waybar/config-icons", "w")
         f.writelines(l)
         f.close()
@@ -168,7 +174,12 @@ def change_values(spacing,bar_spacing,border_width,bar_border_width,active_opaci
                 l[l.index(n)] = f"                \"<span color='{desaturated1}'>󰪤</span>\", // GPU 90" + "\n"
             elif n.find("// GPU Full") >= 0:
                 l[l.index(n)] = f"                \"<span color='{highlight_color}'>󰪥</span>\" // GPU Full" + "\n"
-        
+            elif n.find("// Wifi Empty") >= 0:
+                l[l.index(n)] = f"              \"<span color='{highlight_color}'>󰤯</span>\", // Wifi Empty" "\n"
+            elif n.find("// Wifi Low") >= 0:
+                l[l.index(n)] = f"              \"<span color='{desaturated1}7'>󰤟</span>\", // Wifi Low" + "\n"
+            elif n.find("// Wifi Medium") >= 0:
+                l[l.index(n)] = f"              \"<span color='{desaturated2}'>󰤢</span>\", // Wifi Medium" + "\n"
         f = open("waybar/config-numbers", "w")
         f.writelines(l)
         f.close()
@@ -184,6 +195,8 @@ def change_values(spacing,bar_spacing,border_width,bar_border_width,active_opaci
                 l[l.index(n)] = '    background-color: ' + highlight_color + ";\n"
             elif n.find("border:") >= 0:
                 l[l.index(n)] = '    border: ' + str(bar_border_width) + "px solid;\n"
+            elif n.find("/* battery */") >= 0:
+                l[l.index(n)] = f"color: {highlight_color}; /* battery */\n"
         f = open("waybar/style.css", "w")
         f.writelines(l)
         f.close()
@@ -318,6 +331,7 @@ def change_values(spacing,bar_spacing,border_width,bar_border_width,active_opaci
         with open("smartbot/config.json", "w") as f:
             json.dump(config, f, indent=4)
     os.system("pkill swaybg > /dev/null 2>&1")
+    os.system(f"echo {bg_path} > /$HOME/.config/hypr/wp")
     command = "swaybg -i " + bg_path + " &"
     subprocess.Popen(
         command, shell=True, preexec_fn=os.setpgrp, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
